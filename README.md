@@ -10,7 +10,7 @@ It's "semi-hard" as we're still building the cluster from the ground up. By read
 
 You will of course need an [Azure Subscription](https://azure.microsoft.com/) to deploy into. In total you'll be spinning up 2 Availability Sets, 6 Managed Disks, 1 Load Balancer, 6 Network Interfaces, 1 Network Security Group, 7 Public IPs, 6 Virtual machines and 1 Virtual Network.
 
-These scripts where built and tested on Ubuntu. Either run them from an Ubuntu machine or from the awesome [Ubuntu on Windows](https://www.microsoft.com/en-us/store/p/ubuntu/9nblggh4msv6?rtc=1) which runs on top of the [Linux Subsystem for Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+These scripts were built and tested on Ubuntu. Either run them from an Ubuntu machine or from the awesome [Ubuntu on Windows](https://www.microsoft.com/en-us/store/p/ubuntu/9nblggh4msv6?rtc=1) which runs on top of the [Linux Subsystem for Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 .
 Before starting, make sure that you have the [Azure CLI installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). You'll want to be sure that you're [logged in](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latest) and that you have your [target subscription selected](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-set).
 
@@ -18,7 +18,7 @@ Before starting, make sure that you have the [Azure CLI installed](https://docs.
 
 ### Update the Parameters Include
 
-First, open and update hte params.sh file. This file is included in each script. The resourceRootName will be prepended to each resource that is created in Azure.
+First, open and update the params.sh file. The resourceRootName will be prepended to each resource that is created in Azure.
 
 make sure to populate the adminUserName and SSHPublicKey parameters with valid values that you'd like the VMs configured with.
 
@@ -52,11 +52,16 @@ $ ./03-compute-resources.sh
 
 ### Review and Run Steps 04-12
 
-Review each of the below scripts before running. Execute them in order.
+Create a directory to hold the certificates and configs and change into it:
 
 ```
 $ mkdir tls
 $ cd tls
+```
+
+Review each of the below scripts before running. Execute them in order.
+
+```
 $ ../04-certificate-authority.sh
 $ ../05-kubernetes-configuration-files.sh
 $ ../06-data-encryption-keys.sh
