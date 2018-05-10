@@ -1,10 +1,10 @@
-# Kubernetes The "Semi-Hard" Way Scripted w/ Azure CLI 2.0
+# Kubernetes The "Medium-Hard" Way Scripted w/ Azure CLI 2.0
 
 The shell scripts in this repo align directly with Kelsey Hightower's great [Kubernetes The Hard Way](https://github.com/lostintangent/kubernetes-the-hard-way) tutorial. Kelsey's original tutorial is based on GCP.
 
 These scripts have been written spefically for Microsoft Azure using the Azure CLI 2.0. After running through these scripts you'll have a fully bootstrapped Kubernetes cluster running in Azure. 
 
-It's "semi-hard" as we're still building the cluster from the ground up. By reading the scripts you'll still have full transparency into each step in the process. The whole point here is to learn the mechanics of a cluster. If you're looking for a managed Kubernetes solution on Azure look into Microsoft's [Azure Kubernetes Service - AKS](https://docs.microsoft.com/en-us/azure/aks/).
+It's "Medium-Hard" as we're still building the cluster from the ground up. By reading the scripts you'll still have full transparency into each step in the process. The whole point here is to learn the mechanics of a cluster. If you're looking for a managed Kubernetes solution on Azure look into Microsoft's [Azure Kubernetes Service - AKS](https://docs.microsoft.com/en-us/azure/aks/).
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ $ ./03-compute-resources.sh
 
 ### Review and Run Steps 04-12
 
-Create a directory to hold the certificates and configs and change into it:
+Create a directory to hold the certificates and configs and cd into it:
 
 ```
 $ mkdir tls
@@ -93,7 +93,7 @@ Cleaning up is as simple as deleting the resource group that you've provisioned 
 
 ## Contributing
 
-PRs Welcome
+Pull Requests Welcome
 
 ## Authors
 
@@ -102,4 +102,4 @@ PRs Welcome
 ## Acknowledgments
 
 * [Kubernetes The Hard Way](https://github.com/lostintangent/kubernetes-the-hard-way)
-* Many of the Azure CLI patterns are based on work from [lostintangent's fork](https://github.com/lostintangent/kubernetes-the-hard-way) of Kelsey's original work.
+* Many of the Azure CLI patterns are based on work from [Jonathan Carter's fork](https://github.com/lostintangent/kubernetes-the-hard-way) of Kelsey's original work.
