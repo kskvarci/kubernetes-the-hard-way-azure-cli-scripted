@@ -1,87 +1,100 @@
-# Project Title
+# Kubernetes The "Semi-Hard" Way Scripted w/ Azure CLI 2.0
 
-One Paragraph of project description goes here
+The shell scripts in this repo align directly with Kelsey Hightower's great [Kubernetes The Hard Way](https://github.com/lostintangent/kubernetes-the-hard-way) tutorial. Kelsey's original tutorial is based on GCP.
+
+These scripts have been written spefically for Microsoft Azure using the Azure CLI 2.0. After running through these scripts you'll have a fully bootstrapped Kubernetes cluster running in Azure. 
+
+It's "semi-hard" as we're still building the cluster from the ground up. By reading the scripts you'll still have full transparency into each step in the process. The whole point here is to learn the mechanics of a cluster. If you're looking for a managed Kubernetes solution on Azure look into Microsoft's [Azure Kubernetes Service - AKS](https://docs.microsoft.com/en-us/azure/aks/).
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+You will of course need an [Azure Subscription](https://azure.microsoft.com/) to deploy into. In total you'll be spinning up 2 Availability Sets, 6 Managed Disks, 1 Load Balancer, 6 Network Interfaces, 1 Network Security Group, 7 Public IPs, 6 Virtual machines and 1 Virtual Network.
 
-### Prerequisites
+These scripts where built and tested on Ubuntu. Either run them from an Ubuntu machine or from the awesome [Ubuntu on Windows](https://www.microsoft.com/en-us/store/p/ubuntu/9nblggh4msv6?rtc=1) which runs on top of the [Linux Subsystem for Windows](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+.
+Before starting, make sure that you have the [Azure CLI installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). You'll want to be sure that you're [logged in](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latest) and that you have your [target subscription selected](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-set).
 
-What things you need to install the software and how to install them
+## Running the Scripts
 
-```
-Give examples
-```
+### Update the Parameters Include
 
-### Installing
+First, open and update hte params.sh file. This file is included in each script. The resourceRootName will be prepended to each resource that is created in Azure.
 
-A step by step series of examples that tell you have to get a development env running
+make sure to populate the adminUserName and SSHPublicKey parameters with valid values that you'd like the VMs configured with.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+Leave the vNetCIDR and poCIDRStart values at thier defaults.
 
 ```
-until finished
+#!/bin/bash -e
+
+# Parameters
+# -----------------------------------------------------------
+# Resource Group & Location
+resourceRootName="kthw"
+location="centralus"
+
+# Network Info
+vNetCIDR="10.240.0.0/24"
+podCIDRStart="10.200.0.0/24"
+adminUserName="ken"
+SSHPublicKey=''
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+### Review and Run Steps 01-03
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Review each of the below scripts before running. Execute them in order.
 
 ```
-Give an example
+$ ./01-prerequisites.sh
+$ ./02-client-tools.sh
+$ ./03-compute-resources.sh
 ```
 
-### And coding style tests
+### Review and Run Steps 04-12
 
-Explain what these tests test and why
+Review each of the below scripts before running. Execute them in order.
 
 ```
-Give an example
+$ mkdir tls
+$ cd tls
+$ ../04-certificate-authority.sh
+$ ../05-kubernetes-configuration-files.sh
+$ ../06-data-encryption-keys.sh
+$ ../07-bootstrapping-etcd.sh
+$ ../08-bootstrapping-kubernetes-controllers.sh
+$ ../09-bootstrapping-kubernetes-workers.sh
+$ ../10-configuring-kubectl.sh
+$ ../11-pod-network-routes.sh
+$ ../12-dns-addon.sh
 ```
 
-## Deployment
+## Running Some Smoke Tests
 
-Add additional notes about how to deploy this on a live system
+At this point you should have a fully functional cluster up and running. I've scripted a few smoke tests, but feel free to play around with your new cluster. Break it, fix it, etc ;)
+
+```
+$ ../13-smoke-test
+```
+
+## Cleaning Up
+
+Cleaning up is as simple as deleting the resource group that you've provisioned into.
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Azure CLI 2.0](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) - Azure Command Line Interface
+* [Visual Studio Code](https://code.visualstudio.com/) - The best code editor out there... Seriously.
+* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) - Linux on Windows
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+PRs Welcome
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+* **Ken Skvarcius**
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* [Kubernetes The Hard Way](https://github.com/lostintangent/kubernetes-the-hard-way)
+* Many of the Azure CLI patterns are based on work from [lostintangent's fork](https://github.com/lostintangent/kubernetes-the-hard-way) of Kelsey's original work.
